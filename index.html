@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এলিট ডিরেক্টরি | প্রিমিয়াম</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { 
+            font-family: 'Inter', 'Noto Sans Bengali', sans-serif; 
+            background-color: #FAFAFB;
+            color: #111827;
+        }
+        .premium-header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .premium-card {
+            background: #ffffff;
+            border: 1px solid #F1F5F9;
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .premium-card:hover {
+            border-color: #3B82F6;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-2px);
+        }
+        .search-container input {
+            transition: all 0.3s ease;
+            background: #F1F5F9;
+        }
+        .search-container input:focus {
+            background: white;
+            box-shadow: 0 0 0 2px #3B82F6;
+        }
+        .avatar {
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="premium-header px-6 py-5">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white">
+                    <i class="fas fa-crown text-sm"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">ELITE<span class="text-blue-600">ARCHIVE</span></h1>
+                    <p class="text-[10px] text-slate-400 font-semibold tracking-widest uppercase">Premium Identity Database</p>
+                </div>
+            </div>
+
+            <div class="search-container relative w-full md:w-2/5">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="searchInput" onkeyup="filter()" 
+                       placeholder="সার্চ করুন..." 
+                       class="w-full pl-11 pr-4 py-2.5 rounded-xl outline-none border-none text-sm">
+            </div>
+
+            <div class="hidden md:flex items-center gap-2">
+                <div class="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-xs font-bold border border-blue-100">
+                    <span id="count">0</span> DATA FOUND
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+    </main>
+
+    <script>
+        const db = [
+            { id: "710134188853331", name: "Sumaiya Rabeya" }, { id: "111269661755913", name: "Mardia Mumtaz" }, { id: "477652098755190", name: "Jahidul Islam" }, { id: "115611778226024", name: "MD Rubel Ahmed" }, { id: "549302228273626", name: "Abdullah Al Jaber" }, { id: "115311061486725", name: "EDED Group - এডেড গ্রুপ" }, { id: "845461865616495", name: "Election Commission" }, { id: "274175516380162", name: "Apu's Cartoon" }, { id: "391364967389731", name: "ক্ষুদেবার্তা" }, { id: "342660113257686", name: "Mahmud Hasan Tabib" }, { id: "89225472750", name: "Islami Chhatrashibir" }, { id: "646141765463753", name: "Jamaat-e-Islami" }, { id: "1767925263347180", name: "Dr Tasnim Jara" }, { id: "114861618344537", name: "শিবির স্টোরিজ" }, { id: "108099172063129", name: "Shuvo Da" }, { id: "105879245081085", name: "Huraira Shishir" }, { id: "112159835056849", name: "Mabrur Rashid Bannah" }, { id: "108264909010939", name: "ক্যাঁচাল" }, { id: "348222978382523", name: "Musaddiq Ali" }, { id: "116138644682460", name: "Mama bagni entertainment" }, { id: "140060042520947", name: "Umma Kulsum Popi" }, { id: "121893881010597", name: "প্রাকৃতিক চিকিৎসা" }, { id: "502410826295555", name: "Kahf Internet" }, { id: "512730141918423", name: "Kahf Bangladesh" }, { id: "936017516259713", name: "ITology BD" }, { id: "106589898375840", "name": "Liliput Farhan" }, { id: "104029068997094", "name": "Mohiuddin Roni" }, { id: "103896092587709", "name": "Md Selim Reza" }, { id: "112500085289731", "name": "Nurul Islam Saddam" }, { id: "347449982098452", "name": "মহীয়সী / Mohioshi" }, { id: "101201522786732", "name": "Free Mind" }, { id: "87183732864", "name": "Dr. Kanak Sarwar" }, { id: "337947690116909", "name": "উজান টিভি" }, { id: "410079712197612", "name": "রাজনৈতিক মিম" }, { id: "402573466267640", "name": "AB Zubair" }, { id: "2145300195504819", "name": "Mia Golam Porwar" }, { id: "351692894697689", "name": "MaZharul Islam" }, { id: "418159398042102", "name": "Md Abu Shadik" }, { id: "1655241494703764", "name": "Dr. Shafiqur Rahman" }, { id: "458088377396702", "name": "Daily Amar Desh" }, { id: "774501552403448", "name": "Amar Desh Digital" }, { id: "905316459322562", "name": "নাবিল হোসাইন" }, { id: "668556636678900", "name": "Cumilla News" }, { id: "871301689397902", "name": "Asad Uzzaman" }, { id: "102558272395506", "name": "Fihas world" }, { id: "355959464261778", "name": "Md Imran Hossain" }, { id: "654477891071739", "name": "Uplift Media" }, { id: "86398345441", "name": "Dawn.com" }, { id: "115675608129622", "name": "Muhin Adnan" }, { id: "700223506510692", "name": "DMD Express108" }, { id: "106565505605651", "name": "Munny Chowdury" }, { id: "103533282633327", "name": "Birturk" }, { id: "483259565025899", "name": "Dr. Shafiqul Islam" }, { id: "108795794153547", "name": "Uplift Bangladesh" }, { id: "874304749409211", "name": "Faatiha Aayat" }, { id: "113313486880940", "name": "Asadudzaman Joy" }, { id: "427985113721361", "name": "S T Mahmood Hasib" }, { id: "600797356453232", "name": "The Dissent" }, { id: "104760207965758", "name": "BHS TV" }, { id: "120920137781208", "name": "Kallol Dey" }, { id: "573718099166522", "name": "Shoaib Ahamed" }, { id: "654492151084962", "name": "Shehreen Amin" }, { id: "100137188393830", "name": "RealityCheck BD" }, { id: "389947130867201", "name": "Hasnat Abdullah" }, { id: "116459927712286", "name": "Face the people" }, { id: "105952827668390", "name": "Tempo Stand" }, { id: "597849086743172", "name": "Umma Uswatun Rafia" }, { id: "548625765005858", "name": "আরাফাত রহমান" }, { id: "618924421302485", "name": "What The Story" }, { id: "531854863338894", "name": "Dr. Md. Abdul Ahad" }, { id: "186892191176246", "name": "Barrister Fuad" }, { id: "204809126047570", "name": "Jahidul Islam" }, { id: "430119016852540", "name": "Nawshad Khan" }, { id: "461807570356358", "name": "Fatima Tasnim Zuma" }, { id: "764423000404608", "name": "Osthir Stupidiance" }, { id: "786654288118462", "name": "আল মামুন রাসেল" }, { id: "116675797990267", "name": "Helal Uddin" }, { id: "214970758373186", "name": "Kids Creation TV" }, { id: "738502112967575", "name": "গার্ডিয়ান" }, { id: "471508046052703", "name": "Innova Talks" }, { id: "106506141240748", "name": "Munny chowdury" }, { id: "679280988600962", "name": "Sarba Mitra Chakma" }, { id: "527308250457061", "name": "the Post" }, { id: "496872743507808", "name": "Del H Khan" }, { id: "144326142091642", "name": "ডা. মাহমুদা মিতু" }, { id: "107448188363823", "name": "Abu Tawha Tv" }, { id: "399580326575666", "name": "ইনকিলাব মঞ্চ" }, { id: "385406831326138", "name": "আব্দুল হক সমর্থক" }, { id: "786580764544769", "name": "Ehtasham Haque" }, { id: "813739491828454", "name": "Osman Hadi" }, { id: "688025527718774", "name": "টেন পার্সেন্ট মিমস" }, { id: "688098887711414", "name": "ওসমান হাদি" }, { id: "575209892342389", "name": "টুয়েট ভার্সিটি" }, { id: "102555895986122", "name": "Arifin Rafi" }, { id: "104381855051993", "name": "Asif Mahmud" }, { id: "460558660464583", "name": "শিবির মিম ইউনিট" }, { id: "365885986872960", "name": "Pinaki Bhattacharya" }, { id: "104750462629711", "name": "রাজনীতি" }, { id: "104955939234910", "name": "S M Saif Mostafiz" }, { id: "688769427897838", "name": "Mizanur Rahman" }, { id: "759244780603229", "name": "Shahriar Kabir" }, { id: "414761141718032", "name": "Adv Abu Hena Razzaqi" }, { id: "250800004997967", "name": "Salman Muqtadir" }, { id: "576937402163236", "name": "আহনাফ তাহমীদ" }, { id: "600168409837707", "name": "Faiyaz Efti" }, { id: "110406681736375", "name": "আনিসুর রহমান" }, { id: "1501117916864421", "name": "Abdul Hi Saifullah" }, { id: "561442137524182", "name": "Ahmadullah" }, { id: "272863929581471", "name": "Dr. Abdullah Jahangir" }
+        ].reverse();
+
+        function render(data) {
+            const grid = document.getElementById('grid');
+            document.getElementById('count').innerText = data.length;
+            
+            grid.innerHTML = data.map(item => `
+                <div class="premium-card p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="avatar w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-inner">
+                                ${item.name.charAt(0)}
+                            </div>
+                            <div class="overflow-hidden">
+                                <h3 class="font-bold text-slate-800 truncate">${item.name}</h3>
+                                <p class="text-[10px] font-mono text-slate-400 tracking-wider">UID: ${item.id}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mt-4 pt-4 border-t border-slate-50">
+                        <button onclick="copyId('${item.id}')" class="flex-1 bg-slate-50 hover:bg-slate-100 text-slate-600 py-2 rounded-xl text-[11px] font-bold transition-all">
+                            COPY ID
+                        </button>
+                        <a href="https://facebook.com/${item.id}" target="_blank" 
+                           class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-xl text-[11px] font-bold transition-all shadow-sm shadow-blue-200">
+                            VIEW PROFILE
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filter() {
+            const val = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = db.filter(i => i.name.toLowerCase().includes(val) || i.id.includes(val));
+            render(filtered);
+        }
+
+        function copyId(id) {
+            navigator.clipboard.writeText(id);
+            alert("ID Copied Success!");
+        }
+
+        render(db);
+    </script>
+</body>
+</html>
