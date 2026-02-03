@@ -46,7 +46,6 @@
             gap: 12px;
         }
 
-        /* Search Section */
         .search-area {
             max-width: 600px;
             margin: 0 auto 40px;
@@ -59,6 +58,7 @@
             position: relative;
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
             border-radius: 50px;
+            background: #fff;
         }
 
         #searchInput {
@@ -79,14 +79,12 @@
             color: var(--text-sub);
         }
 
-        /* Grid Layout */
         #resultsList {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
 
-        /* Card */
         .card {
             background: #fff;
             border-radius: 16px;
@@ -97,6 +95,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative; /* সিরিয়াল নাম্বারের পজিশনের জন্য */
         }
 
         .card:hover {
@@ -104,11 +103,24 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
 
+        /* সিরিয়াল নাম্বারের স্টাইল */
+        .serial-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--bg);
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
         .profile-img {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            margin: 0 auto 15px;
+            margin: 10px auto 15px;
             border: 1px solid #ebedf0;
             object-fit: cover;
         }
@@ -117,8 +129,6 @@
             font-size: 17px;
             font-weight: 700;
             margin-bottom: 8px;
-            display: block;
-            text-decoration: none;
             color: var(--text-main);
             min-height: 48px;
             display: flex;
@@ -155,7 +165,6 @@
             font-size: 14px;
         }
 
-        /* Toast Popup */
         #toast {
             position: fixed;
             bottom: 30px;
@@ -191,6 +200,7 @@
 <div id="toast">ID Copied!</div>
 
 <script>
+    // আপনার আগের সব ডেটা এখানে আছে
     const data = [
         { "id": "272863929581471", "name": "Dr. Khandaker Abdullah Jahangir Rh." },
         { "id": "561442137524182", "name": "Ahmadullah" },
@@ -344,8 +354,10 @@
 
     function render(list) {
         const container = document.getElementById('resultsList');
-        container.innerHTML = list.map(item => `
+        // map ফাংশনে index প্যারামিটারটি যোগ করা হয়েছে সিরিয়াল নাম্বারের জন্য
+        container.innerHTML = list.map((item, index) => `
             <div class="card">
+                <div class="serial-number">#${index + 1}</div>
                 <img class="profile-img" src="https://graph.facebook.com/${item.id}/picture?type=large" 
                      onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=f0f2f5&color=1877f2'">
                 <div class="name">${item.name}</div>
@@ -361,6 +373,7 @@
 
     function filter() {
         const val = document.getElementById('searchInput').value.toLowerCase();
+        // ফিল্টার করা ডেটার ওপর রেন্ডার কল করা হচ্ছে যাতে সিরিয়াল ১ থেকে শুরু হয়
         render(data.filter(i => i.name.toLowerCase().includes(val) || i.id.includes(val)));
     }
 
